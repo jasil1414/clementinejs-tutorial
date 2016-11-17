@@ -9,7 +9,9 @@
   "author": "Jasil",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "mongodb": "^2.2.11"
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.8"
   }
 }

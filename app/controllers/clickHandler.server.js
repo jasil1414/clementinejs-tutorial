@@ -1,38 +1,29 @@
 'use strict';
-var Clicks = require('../models/clicks.js');
+var Users = require('../models/users.js');
 function ClickHandler(){
 
   this.getClicks = function(req,res){
-    var clickProjection = {'_id':false};
-    Clicks.findOne({}, clickProjection)
+    Users.findOne({'github.id':req.user.github.id}, {'_id':false})
     .exec(function(err, result){
       if (err) throw err;
-      if(result){
-        res.json(result);
-      }
-      else{
-        var newDoc = new Clicks({'clicks':0});
-        newDoc.save(function(err,doc){
-          if(err) throw err;
-          res.json(doc);
-        });
-      }
-    });
+
+        res.json(result.nbrClicks);
+      });
     };
 
   this.addClick = function(req,res){
-      Clicks.findOneAndUpdate({},{'_id':1},{$inc:{'clicks':1}})
+      Clicks.findOneAndUpdate({'github.id':req.user.github.id},{$inc:{'nbrClicks.clicks':1}})
             .exec(function(err,result){
               if(err) throw err;
-              res.json(result);
+              res.json(result.nbrClicks);
       });
   }
 
   this.resetClick = function(req,res){
-    clicks.update({},{'clicks':0})
+    clicks.update({'github.id':req.user.github.id},{'nbrClicks.clicks':0})
           .exec(function(err,result){
             if(err) throw err;
-            res.json(result);
+            res.json(result.nbrClicks);
     });
   }
   }
